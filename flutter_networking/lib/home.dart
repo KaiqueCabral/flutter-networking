@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Text("Use the menu to check the widgets"),
+        child: Text("Use the menu to access the pages."),
       ),
       drawer: getNavDrawer(context),
     );

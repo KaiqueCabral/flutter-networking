@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -25,13 +26,37 @@ class FetchDataPage extends StatefulWidget {
 }
 
 class _FetchDataPageState extends State<FetchDataPage> {
+  int _postId = 1;
   Future<Post> post;
 
   @override
   void initState() {
     super.initState();
-    post = fetchPost(1);
+    post = fetchPost(_postId);
   }
+
+  _navButton(IconData _icon, int incrementDecrement) => RaisedButton(
+        color: Colors.blue[900],
+        child: Icon(
+          _icon,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          setState(() {
+            _postId = _postId + incrementDecrement;
+            post = fetchPost(_postId);
+          });
+        },
+      );
+
+  _container(Widget _widget) => Container(
+      color: Colors.white38,
+      padding: EdgeInsets.all(25),
+      constraints: BoxConstraints(
+        minWidth: MediaQuery.of(context).size.width * 0.8,
+        minHeight: 250,
+      ),
+      child: _widget);
 
   @override
   Widget build(BuildContext context) {
@@ -42,40 +67,78 @@ class _FetchDataPageState extends State<FetchDataPage> {
       body: Container(
         color: Colors.blue[100],
         constraints: BoxConstraints.expand(),
-        child: Center(
-          child: FutureBuilder<Post>(
-            future: post,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              child: Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text("ID: ${snapshot.data.id}"),
-                        Text("User ID: ${snapshot.data.userId}"),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 100,
-                        vertical: 20,
-                      ),
-                      child: Text(
-                        snapshot.data.title,
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
+                    _navButton(Icons.navigate_before, -1),
+                    _navButton(Icons.navigate_next, 1),
                   ],
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
+                ),
+              ),
+              height: 150,
+            ),
+            Padding(
+              padding: EdgeInsets.all(40),
+              child: FutureBuilder<Post>(
+                future: post,
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return _container(
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    case ConnectionState.active:
+                    case ConnectionState.done:
+                      if (snapshot.hasError) {
+                        return _container(
+                          Text(
+                            '${snapshot.error}',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        );
+                      } else {
+                        return _container(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text("ID: ${snapshot.data.id}"),
+                                  Text("User ID: ${snapshot.data.userId}"),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20,
+                                ),
+                                child: Text(
+                                  snapshot.data.title,
+                                  textAlign: TextAlign.justify,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                  }
 
-              return CircularProgressIndicator();
-            },
-          ),
+                  return CircularProgressIndicator();
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
