@@ -3,6 +3,7 @@ import 'package:flutter_networking/pages/fetch-data.dart';
 import 'package:flutter_networking/pages/parse-photos.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = "/";
   HomePage({Key key, this.title}) : super(key: key);
   final String title;
 
@@ -51,7 +52,7 @@ Drawer getNavDrawer(BuildContext context) {
       duration: Duration(seconds: 1),
       padding: EdgeInsets.zero,
       child: Container(
-        color: Colors.blueAccent[100],
+        color: Colors.blueAccent[200],
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Text(

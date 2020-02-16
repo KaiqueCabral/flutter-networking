@@ -50,13 +50,14 @@ class _FetchDataPageState extends State<FetchDataPage> {
       );
 
   _container(Widget _widget) => Container(
-      color: Colors.white38,
-      padding: EdgeInsets.all(25),
-      constraints: BoxConstraints(
-        minWidth: MediaQuery.of(context).size.width * 0.8,
-        minHeight: 250,
-      ),
-      child: _widget);
+        color: Colors.white38,
+        padding: EdgeInsets.all(25),
+        constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width * 0.8,
+          minHeight: 250,
+        ),
+        child: _widget,
+      );
 
   @override
   Widget build(BuildContext context) {

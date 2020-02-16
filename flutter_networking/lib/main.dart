@@ -3,20 +3,20 @@ import 'package:flutter_networking/home.dart';
 import 'package:flutter_networking/pages/fetch-data.dart';
 import 'package:flutter_networking/pages/parse-photos.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(AppCookbookNetworking());
 
-class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
+class AppCookbookNetworking extends StatefulWidget {
+  AppCookbookNetworking({Key key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _AppCookbookNetworkingState createState() => _AppCookbookNetworkingState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _AppCookbookNetworkingState extends State<AppCookbookNetworking> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Fetch from URL",
+      title: "Cookbook | Networking",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -24,6 +24,7 @@ class _MyAppState extends State<MyApp> {
       home: HomePage(
         title: "Networking",
       ),
+      initialRoute: HomePage.routeName,
       routes: <String, WidgetBuilder>{
         FetchDataPage.routeName: (BuildContext context) => FetchDataPage(),
         ParsePhotosPage.routeName: (BuildContext context) => ParsePhotosPage(),
