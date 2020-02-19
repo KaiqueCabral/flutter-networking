@@ -8,6 +8,7 @@ import 'package:flutter_networking/models/post.dart';
 Future<Post> fetchPost(int _id) async {
   final response =
       await http.get("https://jsonplaceholder.typicode.com/posts/$_id");
+  await new Future.delayed(const Duration(seconds: 5));
 
   if (response.statusCode == 200) {
     return Post.fromJson(json.decode(response.body));
@@ -26,6 +27,7 @@ class FetchDataPage extends StatefulWidget {
 }
 
 class _FetchDataPageState extends State<FetchDataPage> {
+  var _padding = EdgeInsets.zero;
   int _postId = 1;
   Future<Post> post;
 
@@ -33,6 +35,7 @@ class _FetchDataPageState extends State<FetchDataPage> {
   void initState() {
     super.initState();
     post = fetchPost(_postId);
+    _padding = EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20);
   }
 
   _navButton(IconData _icon, int incrementDecrement) => RaisedButton(
@@ -72,6 +75,16 @@ class _FetchDataPageState extends State<FetchDataPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
+              color: Colors.green[100],
+              width: MediaQuery.of(context).size.width,
+              child: AnimatedPadding(
+                padding: _padding,
+                curve: Curves.ease,
+                duration: Duration(seconds: 3),
+                child: Text("Animated Padding"),
+              ),
+            ),
+            Container(
               child: Center(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +95,7 @@ class _FetchDataPageState extends State<FetchDataPage> {
                   ],
                 ),
               ),
-              height: 150,
+              height: 100,
             ),
             Padding(
               padding: EdgeInsets.all(40),
@@ -119,7 +132,7 @@ class _FetchDataPageState extends State<FetchDataPage> {
                                   Text("User ID: ${snapshot.data.userId}"),
                                 ],
                               ),
-                              Padding(
+                              Container(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 20,
                                   vertical: 20,
