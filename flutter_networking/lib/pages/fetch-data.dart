@@ -35,7 +35,7 @@ class _FetchDataPageState extends State<FetchDataPage> {
   void initState() {
     super.initState();
     post = fetchPost(_postId);
-    _padding = EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20);
+    _padding = EdgeInsets.all(20);
   }
 
   _navButton(IconData _icon, int incrementDecrement) => RaisedButton(
