@@ -1,21 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
-import 'package:flutter_networking/models/post.dart';
-
-Future<Post> fetchPost(int _id) async {
-  final response =
-      await http.get("https://jsonplaceholder.typicode.com/posts/$_id");
-  await new Future.delayed(const Duration(seconds: 5));
-
-  if (response.statusCode == 200) {
-    return Post.fromJson(json.decode(response.body));
-  } else {
-    throw Exception("Failed to load post.");
-  }
-}
+import 'package:flutter_networking/models/post.model.dart';
+import 'package:flutter_networking/repositories/post.repository.dart';
 
 class FetchDataPage extends StatefulWidget {
   static const String routeName = "/fetch-data";
@@ -27,15 +12,14 @@ class FetchDataPage extends StatefulWidget {
 }
 
 class _FetchDataPageState extends State<FetchDataPage> {
-  var _padding = EdgeInsets.zero;
   int _postId = 1;
-  Future<Post> post;
+  Future<PostModel> post;
+  PostRepository _repository = new PostRepository();
 
   @override
   void initState() {
     super.initState();
-    post = fetchPost(_postId);
-    _padding = EdgeInsets.all(20);
+    post = _repository.fetchPost(_postId);
   }
 
   _navButton(IconData _icon, int incrementDecrement) => RaisedButton(
@@ -47,7 +31,7 @@ class _FetchDataPageState extends State<FetchDataPage> {
         onPressed: () {
           setState(() {
             _postId = _postId + incrementDecrement;
-            post = fetchPost(_postId);
+            post = _repository.fetchPost(_postId);
           });
         },
       );
@@ -75,16 +59,6 @@ class _FetchDataPageState extends State<FetchDataPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              color: Colors.green[100],
-              width: MediaQuery.of(context).size.width,
-              child: AnimatedPadding(
-                padding: _padding,
-                curve: Curves.ease,
-                duration: Duration(seconds: 3),
-                child: Text("Animated Padding"),
-              ),
-            ),
-            Container(
               child: Center(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +73,7 @@ class _FetchDataPageState extends State<FetchDataPage> {
             ),
             Padding(
               padding: EdgeInsets.all(40),
-              child: FutureBuilder<Post>(
+              child: FutureBuilder(
                 future: post,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
@@ -110,13 +84,14 @@ class _FetchDataPageState extends State<FetchDataPage> {
                           child: CircularProgressIndicator(),
                         ),
                       );
-                    case ConnectionState.active:
-                    case ConnectionState.done:
+                    default:
                       if (snapshot.hasError) {
                         return _container(
-                          Text(
-                            '${snapshot.error}',
-                            style: TextStyle(color: Colors.red),
+                          Center(
+                            child: Text(
+                              '${snapshot.error}',
+                              style: TextStyle(color: Colors.red),
+                            ),
                           ),
                         );
                       } else {
@@ -147,8 +122,6 @@ class _FetchDataPageState extends State<FetchDataPage> {
                         );
                       }
                   }
-
-                  return CircularProgressIndicator();
                 },
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_networking/pages/fetch-data.dart';
-import 'package:flutter_networking/pages/parse-photos.dart';
+import 'package:flutter_networking/views/fetch-data.dart';
+import 'package:flutter_networking/views/parse-photos.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/";
@@ -66,7 +66,7 @@ Drawer getNavDrawer(BuildContext context) {
       ),
     ),
     getNavItem(Icons.data_usage, "Fetch Data", FetchDataPage.routeName),
-    getNavItem(Icons.data_usage, "Parse Photos", ParsePhotosPage.routeName),
+    getNavItem(Icons.photo_library, "Parse Photos", ParsePhotosPage.routeName),
   ];
 
   ListView listView = ListView(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_networking/home.dart';
-import 'package:flutter_networking/pages/fetch-data.dart';
-import 'package:flutter_networking/pages/parse-photos.dart';
+import 'package:flutter_networking/views/fetch-data.dart';
+import 'package:flutter_networking/views/parse-photos.dart';
 
 void main() => runApp(AppCookbookNetworking());
 
