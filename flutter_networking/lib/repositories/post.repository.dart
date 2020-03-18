@@ -8,7 +8,7 @@ class PostRepository {
 
   Future<PostModel> fetchPost(int _id) async {
     final response =
-        await http.get("https://jsonplaceholder.typicode.com/posts/$_id");
+        await http.get("http://jsonplaceholder.typicode.com/posts/$_id");
     //await new Future.delayed(const Duration(seconds: 5)); //To show Circular
 
     if (response.statusCode == 200) {

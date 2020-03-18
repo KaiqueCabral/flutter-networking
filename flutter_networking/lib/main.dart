@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_networking/home.dart';
+import 'package:flutter_networking/views/fetch-categories.dart';
 import 'package:flutter_networking/views/fetch-data.dart';
 import 'package:flutter_networking/views/parse-photos.dart';
 
@@ -26,6 +27,8 @@ class _AppCookbookNetworkingState extends State<AppCookbookNetworking> {
       ),
       initialRoute: HomePage.routeName,
       routes: <String, WidgetBuilder>{
+        FetchCategoriesPage.routeName: (BuildContext context) =>
+            FetchCategoriesPage(),
         FetchDataPage.routeName: (BuildContext context) => FetchDataPage(),
         ParsePhotosPage.routeName: (BuildContext context) => ParsePhotosPage(),
       },

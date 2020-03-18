@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_networking/views/fetch-categories.dart';
 import 'package:flutter_networking/views/fetch-data.dart';
 import 'package:flutter_networking/views/parse-photos.dart';
 
@@ -65,6 +66,8 @@ Drawer getNavDrawer(BuildContext context) {
         ),
       ),
     ),
+    getNavItem(
+        Icons.data_usage, "Fetch Categories", FetchCategoriesPage.routeName),
     getNavItem(Icons.data_usage, "Fetch Data", FetchDataPage.routeName),
     getNavItem(Icons.photo_library, "Parse Photos", ParsePhotosPage.routeName),
   ];
